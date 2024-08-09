@@ -2,6 +2,7 @@ package br.com.fiap.techchallengeorder.external.infrastructure.gateway;
 
 import br.com.fiap.techchallengeorder.adapter.gateways.OrderGatewayInterface;
 import br.com.fiap.techchallengeorder.application.service.ProductService;
+import br.com.fiap.techchallengeorder.application.service.PublishPaymentService;
 import br.com.fiap.techchallengeorder.domain.exception.InvalidProcessException;
 import br.com.fiap.techchallengeorder.domain.model.Order;
 import br.com.fiap.techchallengeorder.application.dto.order.OrderFormDto;
@@ -50,12 +51,15 @@ public class OrderGatewayImpl implements OrderGatewayInterface {
 
     private final Payments payments;
 
+    private final PublishPaymentService publishPaymentService;
+
     @Autowired
-    public OrderGatewayImpl(OrderRepository orderRepository, OrderQueueRepository orderQueueRepository, NotificationRepository notificationRepository, Payments payments){
+    public OrderGatewayImpl(OrderRepository orderRepository, OrderQueueRepository orderQueueRepository, NotificationRepository notificationRepository, Payments payments, PublishPaymentService publishPaymentService){
         this.orderRepository = orderRepository;
         this.orderQueueRepository = orderQueueRepository;
         this.notificationRepository = notificationRepository;
         this.payments = payments;
+        this.publishPaymentService = publishPaymentService;
     }
 
     @Override
@@ -91,6 +95,8 @@ public class OrderGatewayImpl implements OrderGatewayInterface {
 
     public OrderResultFormDto doRegister(OrderDB orderDB) {
         OrderDB orderSaveDB = orderRepository.save(orderDB);
+        publishPaymentService.sendQueueForPayment(orderDB);
+
         return new OrderResultFormDto(orderSaveDB);
     }
 

@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderUseCaseImpl extends AbstractOrderUseCase implements OrderUseCaseInterface {
@@ -45,7 +46,6 @@ public class OrderUseCaseImpl extends AbstractOrderUseCase implements OrderUseCa
 
     @Override
     public OrderResultFormDto register(OrderFormDto orderFormDto) throws InvalidProcessException {
-
         validateProduct(orderFormDto.getProducts());
 
         ClientDB client = null;
