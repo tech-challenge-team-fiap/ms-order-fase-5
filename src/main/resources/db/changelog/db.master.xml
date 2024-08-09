@@ -77,21 +77,6 @@
         </modifySql>
     </changeSet>
 
-    <changeSet id="20231024083801" author="TJOLO">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <foreignKeyConstraintExists foreignKeyName="ORDER_CLIENT_FK" foreignKeyTableName="CLIENT_ORDER"/>
-            </not>
-        </preConditions>
-        <comment>Creates the foreign keys on the CLIENT_ORDER table</comment>
-        <addForeignKeyConstraint baseTableName="CLIENT_ORDER"
-          baseColumnNames="CLIENT_ID"
-          constraintName="ORDER_CLIENT_FK"
-          referencedTableName="CLIENT"
-          referencedColumnNames="ID"
-          onDelete="CASCADE"/>
-    </changeSet>
-
     <changeSet id="20231024083802" author="TJOLO">
         <preConditions>
             <not>
@@ -128,21 +113,6 @@
           baseColumnNames="ORDER_ID"
           constraintName="ORDER_PRODUCT_ORDER_FK"
           referencedTableName="CLIENT_ORDER"
-          referencedColumnNames="ID"
-          onDelete="CASCADE"/>
-    </changeSet>
-
-    <changeSet id="20231024083804" author="TJOLO">
-        <preConditions onFail="MARK_RAN">
-            <not>
-                <foreignKeyConstraintExists foreignKeyName="ORDER_PRODUCT_PRODUCT_FK" foreignKeyTableName="ORDER_PRODUCT"/>
-            </not>
-        </preConditions>
-        <comment>Creates the foreign keys on the ORDER_PRODUCT table</comment>
-        <addForeignKeyConstraint baseTableName="ORDER_PRODUCT"
-          baseColumnNames="PRODUCT_ID"
-          constraintName="ORDER_PRODUCT_PRODUCT_FK"
-          referencedTableName="PRODUCT"
           referencedColumnNames="ID"
           onDelete="CASCADE"/>
     </changeSet>
